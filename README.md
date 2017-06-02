@@ -25,3 +25,9 @@ Run command:
 ```
 $ php artisan make:trait TestTrait
 ```
+
+__By:__ Paulo Santos
+
+__email:__ tm.paulo.santos@gmail.com
+
+__date:__ 02-06-2017
