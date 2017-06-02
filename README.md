@@ -15,7 +15,7 @@ Add to 'app/Console.Kernel.php'
      * @var array
      */
     protected $commands = [
-        //
+        Command\MakeTrait::class,
     ];
 ```
 3 step
