@@ -16,6 +16,13 @@ use Exception;
 class MakeTrait extends Command
 {
     /**
+     * Parent directory
+     *
+     * @var string
+     */
+    private $rootDir = 'app/Traits';
+
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -56,8 +63,8 @@ class MakeTrait extends Command
      */
     private function makeRootDir()
     {
-        if (!file_exists('app/Traits')) {
-            mkdir('app/Traits', 0755);
+        if (!file_exists($this->rootDir)) {
+            mkdir($this->rootDir, 0755);
         }
     }
 
@@ -78,7 +85,7 @@ trait %s
     // code here...
 }
 ', 
-        $this->argument('name'));
+        $this->checkName());
     }
 
     /**
@@ -117,6 +124,55 @@ trait %s
      */
     private function generateName()
     {
-        return 'app/Traits/' . $this->argument('name') . '.php';
+        $name = strripos($this->argument('name'), DIRECTORY_SEPARATOR) != false ?: false;
+
+        if ($name) {
+
+            $path = '';
+            $tree = explode('\\', $this->argument('name'));
+
+            foreach ($tree as $index => $dir) {
+                if ($index == count($tree) -1) {
+                    continue;
+                } else {
+                    if (is_dir($this->rootDir . '/' . $path . ucfirst($dir))) {
+                        throw new Exception('The directory "' . $dir . '" already exists.');
+                    }
+                    $path .= ucfirst($dir) . '/';
+                }
+            }
+
+            $path = '';
+
+            foreach ($tree as $index => $dir) {
+                if ($index == count($tree) -1) {
+                    $newName = ucfirst($dir);
+                    continue;
+                } else {
+                    mkdir($this->rootDir . '/' . $path . ucfirst($dir), 0755);
+                    $path .= ucfirst($dir) . '/';
+                }
+            }
+            return $this->rootDir . '/' . $path . $newName . '.php';
+        }
+        return $this->rootDir . '/' . $this->argument('name') . '.php';
+    }
+
+    /**
+     * Extract the correct name
+     *
+     * @return string
+     */
+    private function checkName()
+    {
+        $name = strripos($this->argument('name'), DIRECTORY_SEPARATOR) != false ?: false;
+
+        if ($name) {
+            $name = explode('\\', $this->argument('name'));
+            $name = $name[count($name) - 1];
+        } else {
+            $name = $this->argument('name');
+        }
+        return ucfirst($name);
     }
 }
