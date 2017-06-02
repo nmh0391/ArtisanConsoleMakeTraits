@@ -9,7 +9,7 @@ Save this class into 'app/Console/Commands/'
 Add to 'app/Console.Kernel.php'
 
 ```
-/**
+    /**
      * The Artisan commands provided by your application.
      *
      * @var array
