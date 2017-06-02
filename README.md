@@ -1,4 +1,4 @@
-# ArtisanConsoleMakeTraits for Laravel 5.4
+# Artisan Console Make Traits for Laravel 5.4
 
 1 step:
 
