@@ -6,7 +6,7 @@ Save this class into 'app/Console/Commands/'
 
 2 step:
 
-Add to 'app/Console.Kernel.php'
+Register command into 'app/Console.Kernel.php'
 
 ```
     /**
